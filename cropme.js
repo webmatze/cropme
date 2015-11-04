@@ -28,7 +28,7 @@
     minHeight = 100;
     borderSensitivity = 8;
     return {
-      template: "<div\n	class=\"step-1\"\n	ng-show=\"checkScopeVariables() && state == 'step-1'\"\n	ng-style=\"{'width': width + 'px', 'height': height + 'px'}\">\n	<dropbox ng-class=\"dropClass\"></dropbox>\n	<div class=\"cropme-error\" ng-bind-html=\"dropError\"></div>\n	<div class=\"cropme-file-input\">\n		<input type=\"file\"/>\n		<div\n			class=\"cropme-button\"\n			ng-class=\"{deactivated: dragOver}\"\n			ng-click=\"browseFiles()\">\n				Browse picture\n		</div>\n		<div class=\"cropme-or\">or</div>\n		<div class=\"cropme-label\" ng-class=\"iconClass\">{{dropText}}</div>\n	</div>\n</div>\n<div\n	class=\"step-2\"\n	ng-show=\"state == 'step-2'\"\n	ng-style=\"{'width': width + 'px', cursor: colResizePointer}\"\n	ng-mousemove=\"mousemove($event)\"\n	ng-mouseleave=\"deselect()\">\n	<img ng-src=\"{{imgSrc}}\" ng-style=\"{'width': width + 'px'}\" ng-show=\"imgLoaded\"/>\n	<div class=\"overlay-tile\" ng-style=\"{'top': 0, 'left': 0, 'width': xCropZone + 'px', 'height': yCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': 0, 'left': xCropZone + 'px', 'width': widthCropZone + 'px', 'height': yCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': 0, 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'height': yCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + 'px', 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'height': heightCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + heightCropZone + 'px', 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'bottom': 0}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + heightCropZone + 'px', 'left': xCropZone + 'px', 'width': widthCropZone + 'px', 'bottom': 0}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + heightCropZone + 'px', 'left': 0, 'width': xCropZone + 'px', 'bottom': 0}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + 'px', 'left': 0, 'width': xCropZone + 'px', 'height': heightCropZone + 'px'}\"></div>\n	<div class=\"overlay-border\" ng-style=\"{'top': (yCropZone - 2) + 'px', 'left': (xCropZone - 2) + 'px', 'width': (widthCropZone - 2) + 'px', 'height': (heightCropZone - 2) + 'px'}\"></div>\n</div>\n<div class=\"cropme-actions\" ng-show=\"state == 'step-2'\">\n	<button id=\"cropme-cancel\" ng-click=\"cancel($event)\">{{cancelLabel}}</button>\n	<button id=\"cropme-ok\" ng-click=\"ok($event)\">{{okLabel}}</button>\n</div>\n<canvas\n	width=\"{{destinationWidth}}\"\n	height=\"{{destinationHeight}}\"\n	ng-style=\"{'width': destinationWidth + 'px', 'height': destinationHeight + 'px'}\">\n</canvas>",
+      template: "<div\n	class=\"step-1\"\n	ng-show=\"checkScopeVariables() && state == 'step-1'\"\n	ng-style=\"{'width': widthWithImage + 'px', 'height': height + 'px'}\">\n	<dropbox ng-class=\"dropClass\"></dropbox>\n	<div class=\"cropme-error\" ng-bind-html=\"dropError\"></div>\n	<div class=\"cropme-file-input\">\n		<input type=\"file\"/>\n		<div\n			class=\"cropme-button\"\n			ng-class=\"{deactivated: dragOver}\"\n			ng-click=\"browseFiles()\">\n				Browse picture\n		</div>\n		<div class=\"cropme-or\">or</div>\n		<div class=\"cropme-label\" ng-class=\"iconClass\">{{dropText}}</div>\n	</div>\n</div>\n<div\n	class=\"step-2\"\n	ng-show=\"state == 'step-2'\"\n	ng-style=\"{'width': widthWithImage + 'px', cursor: colResizePointer}\"\n	ng-mousemove=\"mousemove($event)\"\n	ng-mouseleave=\"deselect()\">\n	<img ng-src=\"{{imgSrc}}\" ng-style=\"{'width': widthWithImage + 'px'}\" ng-show=\"imgLoaded\"/>\n	<div class=\"overlay-tile\" ng-style=\"{'top': 0, 'left': 0, 'width': xCropZone + 'px', 'height': yCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': 0, 'left': xCropZone + 'px', 'width': widthCropZone + 'px', 'height': yCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': 0, 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'height': yCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + 'px', 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'height': heightCropZone + 'px'}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + heightCropZone + 'px', 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'bottom': 0}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + heightCropZone + 'px', 'left': xCropZone + 'px', 'width': widthCropZone + 'px', 'bottom': 0}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + heightCropZone + 'px', 'left': 0, 'width': xCropZone + 'px', 'bottom': 0}\"></div>\n	<div class=\"overlay-tile\" ng-style=\"{'top': yCropZone + 'px', 'left': 0, 'width': xCropZone + 'px', 'height': heightCropZone + 'px'}\"></div>\n	<div class=\"overlay-border\" ng-style=\"{'top': (yCropZone - 2) + 'px', 'left': (xCropZone - 2) + 'px', 'width': (widthCropZone - 2) + 'px', 'height': (heightCropZone - 2) + 'px'}\"></div>\n</div>\n<div class=\"cropme-actions\" ng-show=\"state == 'step-2'\">\n	<button id=\"cropme-cancel\" ng-click=\"cancel($event)\">{{cancelLabel}}</button>\n	<button id=\"cropme-ok\" ng-click=\"ok($event)\">{{okLabel}}</button>\n</div>\n<canvas\n	width=\"{{destinationWidth}}\"\n	height=\"{{destinationHeight}}\"\n	ng-style=\"{'width': destinationWidth + 'px', 'height': destinationHeight + 'px'}\">\n</canvas>",
       restrict: "E",
       priority: 99,
       scope: {
@@ -47,13 +47,15 @@
         cancelLabel: "@?"
       },
       link: function(scope, element, attributes) {
-        var $input, canvasEl, checkBoundsAndSendProgressEvent, checkHRatio, checkVRatio, ctx, debounce, debouncedSendImageEvent, dragIt, draggingFn, elOffset, getCropPromise, getOriginalPromise, grabbedBorder, heightWithImage, imageAreaEl, imageEl, isNearBorders, loadImage, moveBorders, moveCropZone, nearHSegment, nearVSegment, sendCropped, sendImageEvent, sendOriginal, startCropping, zoom;
+        var $input, canvasEl, checkBoundsAndSendProgressEvent, checkHRatio, checkVRatio, cropmeEl, ctx, debounce, debouncedSendImageEvent, dragIt, draggingFn, elOffset, getCropPromise, getOriginalPromise, grabbedBorder, imageAreaEl, imageEl, isNearBorders, loadImage, moveBorders, moveCropZone, nearHSegment, nearVSegment, sendCropped, sendImageEvent, sendOriginal, startCropping, zoom;
         scope.dropText = "Drop picture here";
         scope.state = "step-1";
         draggingFn = null;
         grabbedBorder = null;
-        heightWithImage = null;
+        scope.widthWithImage = null;
+        scope.heightWithImage = null;
         zoom = null;
+        cropmeEl = element;
         imageEl = element.find('img')[0];
         canvasEl = element.find("canvas")[0];
         ctx = canvasEl.getContext("2d");
@@ -64,11 +66,14 @@
           return scope.sendOriginal === "true";
         };
         startCropping = function(imageWidth, imageHeight) {
-          zoom = scope.width / imageWidth;
-          heightWithImage = imageHeight * zoom;
+          var width;
+          width = scope.width | cropmeEl.width();
+          zoom = width / imageWidth;
+          scope.widthWithImage = imageWidth * zoom;
+          scope.heightWithImage = imageHeight * zoom;
           scope.widthCropZone = Math.round(scope.destinationWidth * zoom);
           scope.heightCropZone = Math.round((scope.destinationHeight || minHeight) * zoom);
-          scope.xCropZone = Math.round((scope.width - scope.widthCropZone) / 2);
+          scope.xCropZone = Math.round((width - scope.widthCropZone) / 2);
           return scope.yCropZone = Math.round((scope.height - scope.heightCropZone) / 2);
         };
         scope.checkScopeVariables = function() {
@@ -231,18 +236,18 @@
             scope.heightCropZone = scope.destinationHeight * zoom;
             checkVRatio();
           }
-          if (scope.xCropZone + scope.widthCropZone > scope.width) {
-            scope.xCropZone = scope.width - scope.widthCropZone;
+          if (scope.xCropZone + scope.widthCropZone > scope.widthWithImage) {
+            scope.xCropZone = scope.widthWithImage - scope.widthCropZone;
             if (scope.xCropZone < 0) {
-              scope.widthCropZone = scope.width;
+              scope.widthCropZone = scope.widthWithImage;
               scope.xCropZone = 0;
               checkHRatio();
             }
           }
-          if (scope.yCropZone + scope.heightCropZone > heightWithImage) {
-            scope.yCropZone = heightWithImage - scope.heightCropZone;
+          if (scope.yCropZone + scope.heightCropZone > scope.heightWithImage) {
+            scope.yCropZone = scope.heightWithImage - scope.heightCropZone;
             if (scope.yCropZone < 0) {
-              scope.heightCropZone = heightWithImage;
+              scope.heightCropZone = scope.heightWithImage;
               scope.yCropZone = 0;
               checkVRatio();
             }

@@ -15,7 +15,7 @@ angular.module("cropme").directive "cropme", ($swipe, $window, $timeout, $rootSc
 		<div
 			class="step-1"
 			ng-show="checkScopeVariables() && state == 'step-1'"
-			ng-style="{'width': width + 'px', 'height': height + 'px'}">
+			ng-style="{'width': widthWithImage + 'px', 'height': height + 'px'}">
 			<dropbox ng-class="dropClass"></dropbox>
 			<div class="cropme-error" ng-bind-html="dropError"></div>
 			<div class="cropme-file-input">
@@ -33,10 +33,10 @@ angular.module("cropme").directive "cropme", ($swipe, $window, $timeout, $rootSc
 		<div
 			class="step-2"
 			ng-show="state == 'step-2'"
-			ng-style="{'width': width + 'px', cursor: colResizePointer}"
+			ng-style="{'width': widthWithImage + 'px', cursor: colResizePointer}"
 			ng-mousemove="mousemove($event)"
 			ng-mouseleave="deselect()">
-			<img ng-src="{{imgSrc}}" ng-style="{'width': width + 'px'}" ng-show="imgLoaded"/>
+			<img ng-src="{{imgSrc}}" ng-style="{'width': widthWithImage + 'px'}" ng-show="imgLoaded"/>
 			<div class="overlay-tile" ng-style="{'top': 0, 'left': 0, 'width': xCropZone + 'px', 'height': yCropZone + 'px'}"></div>
 			<div class="overlay-tile" ng-style="{'top': 0, 'left': xCropZone + 'px', 'width': widthCropZone + 'px', 'height': yCropZone + 'px'}"></div>
 			<div class="overlay-tile" ng-style="{'top': 0, 'left': xCropZone + widthCropZone + 'px', 'right': 0, 'height': yCropZone + 'px'}"></div>
@@ -78,8 +78,10 @@ angular.module("cropme").directive "cropme", ($swipe, $window, $timeout, $rootSc
 		scope.state = "step-1"
 		draggingFn = null
 		grabbedBorder = null
-		heightWithImage = null
+		scope.widthWithImage = null
+		scope.heightWithImage = null
 		zoom = null
+		cropmeEl = element
 		imageEl = element.find('img')[0]
 		canvasEl = element.find("canvas")[0]
 		ctx = canvasEl.getContext "2d"
@@ -87,11 +89,13 @@ angular.module("cropme").directive "cropme", ($swipe, $window, $timeout, $rootSc
 		sendCropped = -> scope.sendCropped is `undefined` or scope.sendCropped is "true"
 		sendOriginal = -> scope.sendOriginal is "true"
 		startCropping = (imageWidth, imageHeight) ->
-			zoom = scope.width / imageWidth
-			heightWithImage = imageHeight * zoom
+			width = scope.width | cropmeEl.width()
+			zoom = width / imageWidth
+			scope.widthWithImage = imageWidth * zoom
+			scope.heightWithImage = imageHeight * zoom
 			scope.widthCropZone = Math.round scope.destinationWidth * zoom
 			scope.heightCropZone = Math.round (scope.destinationHeight || minHeight) * zoom
-			scope.xCropZone = Math.round (scope.width - scope.widthCropZone) / 2
+			scope.xCropZone = Math.round (width - scope.widthCropZone) / 2
 			scope.yCropZone = Math.round (scope.height - scope.heightCropZone) / 2
 
 		scope.checkScopeVariables = ->
@@ -197,16 +201,16 @@ angular.module("cropme").directive "cropme", ($swipe, $window, $timeout, $rootSc
 			else if scope.destinationHeight and scope.heightCropZone < scope.destinationHeight * zoom
 				scope.heightCropZone = scope.destinationHeight * zoom
 				checkVRatio()
-			if scope.xCropZone + scope.widthCropZone > scope.width
-				scope.xCropZone = scope.width - scope.widthCropZone
+			if scope.xCropZone + scope.widthCropZone > scope.widthWithImage
+				scope.xCropZone = scope.widthWithImage - scope.widthCropZone
 				if scope.xCropZone < 0
-					scope.widthCropZone = scope.width
+					scope.widthCropZone = scope.widthWithImage
 					scope.xCropZone = 0
 					checkHRatio()
-			if scope.yCropZone + scope.heightCropZone > heightWithImage
-				scope.yCropZone = heightWithImage - scope.heightCropZone
+			if scope.yCropZone + scope.heightCropZone > scope.heightWithImage
+				scope.yCropZone = scope.heightWithImage - scope.heightCropZone
 				if scope.yCropZone < 0
-					scope.heightCropZone = heightWithImage
+					scope.heightCropZone = scope.heightWithImage
 					scope.yCropZone = 0
 					checkVRatio()
 			debouncedSendImageEvent "progress"
